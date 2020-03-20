@@ -1,0 +1,45 @@
+{
+    "compilerOptions": {
+        "module": "commonjs", // 指定编译生成哪个模块的系统代码，考虑到兼容性，这里我们设置成 commonjs
+        "target": "es6", // 目标语法
+        "strict": true, // 严格模式
+        "esModuleInterop": true,// 模块导入方式
+        "baseUrl": "./", // 定义 ts 项目的根目录，设置 paths 前必须设置
+        "outDir": "dist", // 编译输出目录，即 .ts 文件编译成 .js 文件后的输出目录。这里设置为根目录下的 /dist 目录
+        "moduleResolution": "node",
+        "noImplicitAny": true, // 在表达式和声明上有隐含的 any类型时报错。设为 false 避免当类型推论为 any 时报错
+        "allowSyntheticDefaultImports": true, //(加了就能用import from)则检测导入的模块是否是 ES6 模块，如果不是，则查找模块中是否有 exports.default 导出。
+        "sourceMap": true, // 是否开启sourceMap
+        "experimentalDecorators": true, // 使用注解需要
+        "emitDecoratorMetadata": true,
+        //定义路径别名,即当我们通过路径引入一个模块时，可以使用别名来进行引入，这里第一个 * 设置是为了引入第三方模块; 第二个 '@/*' 则是为了直接快捷的导入 /src 下的模块。
+        "paths": {
+            "*": [
+                "node_modules/*",
+                "src/types/*"
+            ],
+            "@/*": [
+                "src/*"
+            ]
+        },
+        "lib": [
+            "es5",
+            "es6",
+            "dom",
+            "es2015.core",
+            "es2015.collection",
+            "es2015.generator",
+            "es2015.iterable",
+            "es2015.promise",
+            "es2015.proxy",
+            "es2015.reflect",
+            "es2015.symbol",
+            "es2015.symbol.wellknown",
+            "esnext.asynciterable"
+        ]
+    },
+    "include": ["src"], // 需要编译的 ts 文件，这里设置为 src 目录下的所有文件
+    "exclude": [
+        "node_modules"
+    ]
+}
