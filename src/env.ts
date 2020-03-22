@@ -12,8 +12,31 @@ export const env={
             controllers: getOsPaths('CONTROLLERS'),
             middlewares: getOsPaths('MIDDLEWARES'),
             interceptors: getOsPaths('INTERCEPTORS'),
+            // migrations: getOsPaths('TYPEORM_MIGRATIONS'),
+            // migrationsDir: getOsPath('TYPEORM_MIGRATIONS_DIR'),
+            entities: getOsPaths('TYPEORM_ENTITIES'),
+            entitiesDir: getOsPath('TYPEORM_ENTITIES_DIR'),
         }
-    }
+    },
+    db: {
+        type: getOsEnv('TYPEORM_CONNECTION'),
+        host: getOsEnvOptional('TYPEORM_HOST'),
+        port: toNumber(getOsEnvOptional('TYPEORM_PORT')),
+        username: getOsEnvOptional('TYPEORM_USERNAME'),
+        password: getOsEnvOptional('TYPEORM_PASSWORD'),
+        database: getOsEnv('TYPEORM_DATABASE'),
+        synchronize: toBool(getOsEnvOptional('TYPEORM_SYNCHRONIZE')),
+        logging: getOsEnv('TYPEORM_LOGGING'),
+    },
+}
+export function toBool(value: string|undefined): boolean {
+    return value === 'true';
+}
+export function toNumber(value: string|undefined): number {
+    return parseInt(value||'', 10);
+}
+export function getOsEnvOptional(key: string): string | undefined {
+    return process.env[key];
 }
 
 export function getOsEnv(key: string): string {
@@ -41,4 +64,7 @@ export function getPath(path: string): string {
 }
 export function getPaths(paths: string[]): string[] {
     return paths.map(p => getPath(p));
+}
+export function getOsPath(key: string): string {
+    return getPath(getOsEnv(key));
 }
