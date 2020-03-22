@@ -4,37 +4,50 @@ import createError from 'http-errors';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import indexRouter from '../routes/index';
 import iDebug from 'debug';
 import http from 'http';
+import { useExpressServer } from "routing-controllers"; // mvc结构路由的controller包
+import { env } from '../env';
+import {authorizationChecker} from '../api/auth/authorizationChecker'
+import {currentUserChecker} from '../api/auth/currentUserChecker'
+
 const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | undefined) => {
     const app = express();
-    // view engine setup
-    app.set('views', path.join(__dirname, 'views'));
-    app.set('view engine', 'jade');
     app.use(logger('dev'));
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }));
     app.use(cookieParser());
     app.use(express.static(path.join(__dirname, 'public')));
-
-    app.use('/', indexRouter);
+    // 配置mvc服务的
+    useExpressServer(app, {
+        routePrefix: env.app.routePrefix, // 路由前缀
+        cors: true, // 是否开启跨域请求
+        defaultErrorHandler: false, // 是否使用默认的错误处理机制。后期自己有进行配置。所以就不配置这个了。
+        classTransformer: false, // 是否开启类型转换，在获得参数的时候来决定参数形式
+        controllers: env.app.dirs.controllers, // 配置controller文件。传入的是一个数组,
+        middlewares: env.app.dirs.middlewares, // 配置中间件
+        interceptors: env.app.dirs.interceptors, // 配置拦截器
+        authorizationChecker: authorizationChecker, // 配置身份校验
+        currentUserChecker: currentUserChecker, // 获取当前用户
+    });
+    // app.use('/', indexRouter);
 
     // catch 404 and forward to error handler
-    app.use(function (req, res, next) {
-        next(createError(404));
-    });
+    // app.use(function (req, res, next) {
+    //     res.json('error');
+    //     next(createError(404));
+    // });
 
-    // error handler
-    app.use(function (err: any, req: any, res: any, next: any) {
-        // set locals, only providing error in development
-        res.locals.message = err.message;
-        res.locals.error = req.app.get('env') === 'development' ? err : {};
+    // // error handler
+    // app.use(function (err: any, req: any, res: any, next: any) {
+    //     // set locals, only providing error in development
+    //     res.locals.message = err.message;
+    //     res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-        // render the error page
-        res.status(err.status || 500);
-        res.render('error');
-    });
+    //     // render the error page
+    //     res.status(err.status || 500);
+    //     res.json('error');
+    // });
     const debug = iDebug('node-mvc:server');
     const port = normalizePort(process.env.PORT || '3000');
     app.set('port', port);
@@ -42,7 +55,7 @@ const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | 
     const server = http.createServer(app);
 
     server.listen(port);
-    server.on('error', onError);
+    // server.on('error', onError);
     server.on('listening', onListening);
 
 

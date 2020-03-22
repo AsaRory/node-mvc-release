@@ -8,10 +8,11 @@
     "wstart": "set NODE_ENV=production&&node ./src/bin/www",
     "wdebug": "set NODE_ENV=development&nodemon ./src/bin/www",
     "tsStart": "node  ./dist/bin/www",
-    "dev": "nodemon --watch 'src/' -e ts --exec 'ts-node' ./src/app.ts"
+    "dev": "export NODE_ENV=development&&nodemon --watch 'src/' -e ts --exec 'ts-node' ./src/app.ts"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^8.0.0",
     "ejs": "~2.6.1",
