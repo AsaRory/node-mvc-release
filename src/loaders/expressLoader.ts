@@ -12,7 +12,6 @@ import {authorizationChecker} from '../api/auth/authorizationChecker'
 import {currentUserChecker} from '../api/auth/currentUserChecker'
 
 const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | undefined) => {
-    console.log('111');
     const app = express();
     app.use(logger('dev'));
     app.use(express.json());
@@ -52,6 +51,7 @@ const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | 
     const debug = iDebug('node-mvc:server');
     const port = normalizePort(process.env.PORT || '3000');
     app.set('port', port);
+    settings?.setData('express_app',app);
 
     const server = http.createServer(app);
 

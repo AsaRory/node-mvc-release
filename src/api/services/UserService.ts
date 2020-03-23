@@ -4,6 +4,7 @@ import uuid from 'uuid';
 
 import { User } from '../models/User';
 import { UserRepository } from '../repositories/UserRepository';
+import AjaxResponse from '../common_class/AjaxResponse';
 
 @Service()
 export class UserService {
@@ -12,28 +13,31 @@ export class UserService {
         @OrmRepository() private userRepository: UserRepository,
     ) { }
 
-    public find(): Promise<User[]> {
-        return this.userRepository.find();
+    public async find(): Promise<AjaxResponse> {
+        const list =  await this.userRepository.find();
+        return new AjaxResponse(1,'获取成功',list);
     }
 
-    public findOne(id: string): Promise<User | undefined> {
-        return this.userRepository.findOne({ id });
+    public async findOne(id: string): Promise<AjaxResponse> {
+        const user = await this.userRepository.findOne({ id });
+        return new AjaxResponse(1,'获取成功',user);
     }
 
-    public async create(user: User): Promise<User> {
+    public async create(user: User): Promise<AjaxResponse> {
         user.id = uuid.v1();
         const newUser = await this.userRepository.save(user);
-        return newUser;
+        return new AjaxResponse(1,'新增成功',user);
     }
 
-    public update(id: string, user: User): Promise<User> {
+    public async update(id: string, user: User): Promise<AjaxResponse> {
         user.id = id;
-        return this.userRepository.save(user);
+        const updateUser = await this.userRepository.save(user);
+        return new AjaxResponse(1,'修改成功',updateUser);
     }
 
-    public async delete(id: string): Promise<void> {
-        await this.userRepository.delete(id);
-        return;
+    public async delete(id: string): Promise<AjaxResponse> {
+        const result =  await this.userRepository.delete(id);
+        return new AjaxResponse(1,'删除成功');
     }
 
 }

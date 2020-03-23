@@ -1,18 +1,30 @@
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 const join = path.join;
+/**
+ * 这里要注意需要再tsconfig.json里配置"resolveJsonModule": true, 
+ * 才能引入json
+ */
+import * as pkg from '../package.json';
+
 
 // 这行代码可以选择你拥有的后缀。选择不同的环境。
 dotenv.config({ path: path.join(process.cwd(), `.env${((process.env.NODE_ENV === 'development') ? '.development' : '')}`) });
 
-export const env={
-    app:{
+export const env = {
+    app: {
+        name: getOsEnv('APP_NAME'),
+        version: (pkg as any).version,
+        description: (pkg as any).description,
+        host: getOsEnv('APP_HOST'),
+        schema: getOsEnv('APP_SCHEMA'),
         routePrefix: getOsEnv('APP_ROUTE_PREFIX'),
-        dirs:{
+        port: normalizePort(process.env.PORT || getOsEnv('APP_PORT')),
+        dirs: {
             controllers: getOsPaths('CONTROLLERS'),
             middlewares: getOsPaths('MIDDLEWARES'),
             interceptors: getOsPaths('INTERCEPTORS'),
-            // migrations: getOsPaths('TYPEORM_MIGRATIONS'),
+            // migrations: getOsPaths('TYPEORM_MIGRATIONS'), // 暂时不需要做migrations
             // migrationsDir: getOsPath('TYPEORM_MIGRATIONS_DIR'),
             entities: getOsPaths('TYPEORM_ENTITIES'),
             entitiesDir: getOsPath('TYPEORM_ENTITIES_DIR'),
@@ -28,12 +40,19 @@ export const env={
         synchronize: toBool(getOsEnvOptional('TYPEORM_SYNCHRONIZE')),
         logging: getOsEnv('TYPEORM_LOGGING'),
     },
+    swagger: {
+        enabled: toBool(getOsEnv('SWAGGER_ENABLED')),
+        route: getOsEnv('SWAGGER_ROUTE'),
+        file: getOsEnv('SWAGGER_FILE'),
+        username: getOsEnv('SWAGGER_USERNAME'),
+        password: getOsEnv('SWAGGER_PASSWORD'),
+    },
 }
-export function toBool(value: string|undefined): boolean {
+export function toBool(value: string | undefined): boolean {
     return value === 'true';
 }
-export function toNumber(value: string|undefined): number {
-    return parseInt(value||'', 10);
+export function toNumber(value: string | undefined): number {
+    return parseInt(value || '', 10);
 }
 export function getOsEnvOptional(key: string): string | undefined {
     return process.env[key];
@@ -67,4 +86,14 @@ export function getPaths(paths: string[]): string[] {
 }
 export function getOsPath(key: string): string {
     return getPath(getOsEnv(key));
+}
+export function normalizePort(port: string): number | string | boolean {
+    const parsedPort = parseInt(port, 10);
+    if (isNaN(parsedPort)) { // named pipe
+        return port;
+    }
+    if (parsedPort >= 0) { // port number
+        return parsedPort;
+    }
+    return false;
 }
