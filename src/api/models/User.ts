@@ -30,4 +30,14 @@ export class User {
     })
     public init!: string;
 
+    @Column({
+        default: null
+    })
+    public salt!: string;
+
+    @Column({
+        default: null
+    })
+    public password!: string;
+
 }

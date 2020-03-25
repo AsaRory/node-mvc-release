@@ -23,6 +23,11 @@ export class UserService {
         return new AjaxResponse(1,'获取成功',user);
     }
 
+    public async findOneByUser(user:User):Promise<User|undefined> {
+        const findUser = await this.userRepository.findOne(user);
+        return findUser;
+    }
+
     public async create(user: User): Promise<AjaxResponse> {
         user.id = uuid.v1();
         const newUser = await this.userRepository.save(user);

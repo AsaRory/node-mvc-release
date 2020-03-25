@@ -1,11 +1,11 @@
 {
-    "swagger": "2.0", 
+    "swagger": "2.0",
     "info": {
         "description": "node-mvc",
         "version": "1.0.0",
         "title": "node-mvc",
         "contact": {
-            "email": "xxxxxxxxxxxm@163.com" 
+            "email": "xxxxxxxxxxxm@163.com"
         }
     },
     "host": "localhost:3000",
@@ -14,12 +14,115 @@
         {
             "name": "User",
             "description": "关于用户类的操作"
+        },
+        {
+            "name": "Common",
+            "description": "通用的一类操作"
         }
     ],
     "schemes": [
         "http"
     ],
     "paths": {
+        "/register": {
+            "post": {
+                "tags": [
+                    "Common"
+                ],
+                "summary": "注册",
+                "description": "用户注册",
+                "operationId": "register",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "创建一个用户对象",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "number"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/User"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "get": {
+                "tags": [
+                    "Common"
+                ],
+                "summary": "登录",
+                "description": "使用用户名密码登录",
+                "operationId": "login",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "query",
+                        "description": "用户名",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "密码",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "number"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/User"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/user": {
             "post": {
                 "tags": [
@@ -241,6 +344,14 @@
                 "init": {
                     "type": "string",
                     "description": "是否初始化"
+                },
+                "slot": {
+                    "type": "string",
+                    "description": "随机盐"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "密码"
                 }
             }
         }

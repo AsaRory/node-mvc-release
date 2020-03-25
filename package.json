@@ -1,7 +1,7 @@
 {
   "name": "node-mvc",
   "version": "0.0.0",
-  "description":"使用node来搭建像spring mvc那样的后端项目结构",
+  "description": "使用node来搭建像spring mvc那样的后端项目结构",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
@@ -9,11 +9,13 @@
     "wstart": "set NODE_ENV=production&&node ./src/bin/www",
     "wdebug": "set NODE_ENV=development&nodemon ./src/bin/www",
     "tsStart": "node  ./dist/bin/www",
+    "createKey":"ts-node ./src/utils/CryptHelper.ts",
     "dev": "export NODE_ENV=development&&nodemon --watch 'src/' -e ts,json --exec 'ts-node' ./src/app.ts"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
+    "crypto-browserify": "^3.12.0",
     "debug": "~2.6.9",
     "dotenv": "^8.0.0",
     "ejs": "~2.6.1",
@@ -25,6 +27,7 @@
     "fs": "0.0.1-security",
     "http-errors": "~1.6.3",
     "jade": "^1.11.0",
+    "jsencrypt": "^3.0.0-rc.1",
     "jsonwebtoken": "^8.5.1",
     "log4js": "^4.2.0",
     "lusca": "latest",
@@ -32,6 +35,7 @@
     "morgan": "~1.9.1",
     "mysql": "^2.17.1",
     "mysql2": "^1.6.5",
+    "node-rsa": "^1.0.7",
     "reflect-metadata": "^0.1.13",
     "routing-controllers": "^0.7.7",
     "sequelize": "^5.9.2",
@@ -55,11 +59,13 @@
     "@types/lusca": "^1.6.0",
     "@types/morgan": "^1.9.0",
     "@types/node": "^13.9.2",
+    "@types/node-rsa": "^1.0.0",
     "@types/request": "^2.48.3",
     "@types/swagger-ui-express": "^3.0.1",
     "@types/uuid": "^3.4.5",
     "@types/winston": "^2.3.9",
     "@types/ws": "^6.0.3",
+    "crypto": "^1.0.1",
     "nodemon": "^1.19.1",
     "ts-node": "^8.7.0",
     "tslint": "^6.1.0"
