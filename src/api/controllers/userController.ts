@@ -1,9 +1,10 @@
-import { Get, JsonController, Post, Body, OnUndefined, Param, Delete, Put } from "routing-controllers";
+import { Get, JsonController, Post, Body, OnUndefined, Param, Delete, Put, Authorized } from "routing-controllers";
 import { UserService } from '../services/UserService';
 import { User } from "../models/User";
 import AjaxResponse from "../common_class/AjaxResponse";
 
 @JsonController('/user')
+@Authorized(['admin,user'])
 export default class UserController {
     constructor(
         private userService: UserService

@@ -1,6 +1,7 @@
 import express from 'express';
 import { MicroframeworkLoader, MicroframeworkSettings } from 'microframework-w3tec';
 import createError from 'http-errors';
+import flash from "express-flash";
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
@@ -8,12 +9,14 @@ import iDebug from 'debug';
 import http from 'http';
 import { useExpressServer } from "routing-controllers"; // mvc结构路由的controller包
 import { env } from '../env';
-import {authorizationChecker} from '../api/auth/authorizationChecker'
-import {currentUserChecker} from '../api/auth/currentUserChecker'
+import { authorizationChecker } from '../api/auth/authorizationChecker'
+import { currentUserChecker } from '../api/auth/currentUserChecker'
 
 const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | undefined) => {
     const app = express();
     app.use(logger('dev'));
+    // flash消息用于重定向跳转时传递消息
+    app.use(flash());
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }));
     app.use(cookieParser());
@@ -51,7 +54,7 @@ const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | 
     const debug = iDebug('node-mvc:server');
     const port = normalizePort(process.env.PORT || '3000');
     app.set('port', port);
-    settings?.setData('express_app',app);
+    settings?.setData('express_app', app);
 
     const server = http.createServer(app);
 

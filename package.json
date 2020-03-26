@@ -9,7 +9,7 @@
     "wstart": "set NODE_ENV=production&&node ./src/bin/www",
     "wdebug": "set NODE_ENV=development&nodemon ./src/bin/www",
     "tsStart": "node  ./dist/bin/www",
-    "createKey":"ts-node ./src/utils/CryptHelper.ts",
+    "createKey": "ts-node ./src/utils/CryptHelper.ts",
     "dev": "export NODE_ENV=development&&nodemon --watch 'src/' -e ts,json --exec 'ts-node' ./src/app.ts"
   },
   "dependencies": {
@@ -56,6 +56,7 @@
     "@types/express-flash": "0.0.0",
     "@types/http-errors": "^1.6.3",
     "@types/jade": "0.0.30",
+    "@types/jsonwebtoken": "^8.3.8",
     "@types/lusca": "^1.6.0",
     "@types/morgan": "^1.9.0",
     "@types/node": "^13.9.2",

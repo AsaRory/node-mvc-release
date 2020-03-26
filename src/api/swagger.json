@@ -123,6 +123,50 @@
                 }
             }
         },
+        "/current-user": {
+            "get": {
+                "tags": [
+                    "Common"
+                ],
+                "summary": "获取当前用户解析",
+                "description": "获取当前用户解析",
+                "operationId": "current-user",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "number"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/definitions/User"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/user": {
             "post": {
                 "tags": [
@@ -145,6 +189,11 @@
                         }
                     }
                 ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
                 "responses": {
                     "default": {
                         "description": "successful operation"
@@ -161,6 +210,11 @@
                 "produces": [
                     "application/json"
                 ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
                 "responses": {
                     "default": {
                         "description": "successful operation"
@@ -176,6 +230,11 @@
                 "summary": "删除单个用户",
                 "description": "根据用户id删除用户",
                 "operationId": "removeUserById",
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
                 "parameters": [
                     {
                         "name": "id",
@@ -215,6 +274,11 @@
             "put": {
                 "tags": [
                     "User"
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
                 ],
                 "summary": "修改单个用户",
                 "description": "根据用户id修改用户",
@@ -267,6 +331,11 @@
             "get": {
                 "tags": [
                     "User"
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
                 ],
                 "summary": "获取单个用户",
                 "description": "根据用户id获取用户",
