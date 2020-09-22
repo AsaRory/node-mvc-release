@@ -26,7 +26,7 @@ export class CryptHelper {
     }
     public static encryptByKey(plaintext: string) {
         const pubFile = join(__dirname,'./pub.key');
-        const publicStr =  fs.readFileSync('./pub.key');
+        const publicStr =  fs.readFileSync(pubFile);
         const a_public_key = new nodeRsa(publicStr,'pkcs8-public');
         a_public_key.setOptions({encryptionScheme: 'pkcs1'}); //  设置加密方式问题。
         const encrypted = a_public_key.encrypt(plaintext, 'base64');
@@ -47,6 +47,8 @@ export class CryptHelper {
  * 只有直接使用node来使用的时候才会生成秘钥公钥
  */
 if (require.main === module) {
-    CryptHelper.generateKey();
+    // CryptHelper.generateKey();
+    const password =  CryptHelper.encryptByKey('123456');
+    console.log('password=', password);
 }
 

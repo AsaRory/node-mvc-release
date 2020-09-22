@@ -20,7 +20,11 @@ const expressLoader: MicroframeworkLoader = (settings: MicroframeworkSettings | 
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }));
     app.use(cookieParser());
-    app.use(express.static(path.join(__dirname, 'public')));
+    const publicFolder = path.resolve(__dirname,'../../', 'public');
+    app.use(express.static(publicFolder));
+    app.get(`/test-html/*`, function (request, response) {
+        response.sendFile(path.resolve(publicFolder, 'test_html', 'index.html'))
+    })
     // 配置mvc服务的
     useExpressServer(app, {
         routePrefix: env.app.routePrefix, // 路由前缀

@@ -4,7 +4,7 @@
   "description": "使用node来搭建像spring mvc那样的后端项目结构",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "set NODE_ENV=development&&nodemon --watch src/ -e ts,json --exec ts-node ./src/app.ts",
     "debug": "export NODE_ENV=development&&nodemon ./src/bin/www",
     "wstart": "set NODE_ENV=production&&node ./src/bin/www",
     "wdebug": "set NODE_ENV=development&nodemon ./src/bin/www",

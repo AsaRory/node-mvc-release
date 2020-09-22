@@ -16,7 +16,8 @@ export const typeormLoader: MicroframeworkLoader = async (settings: Microframewo
         database: env.db.database,
         synchronize: env.db.synchronize,
         logging: env.db.logging,
-        entities: env.app.dirs.entities
+        entities: env.app.dirs.entities,
+        connectTimeout: 600000
     });
     // 创建新的数据库连接
     const connection = await createConnection(connectionOptions);
